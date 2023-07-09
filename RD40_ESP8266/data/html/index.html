@@ -1,0 +1,50 @@
+<!DOCTYPE HTML> 
+<html> 
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="UTF-8">
+        <title>ESP01-s Web Server</title>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <h1>Rotating Display</h1>
+        <h2>brightness: </h2> <p class="text1" id="brightnessValue">55 %</p>
+        <input type="range" id="brightnessSlider" min="10" max="100" value="0" step="5" class="slider"></input>
+
+        <form class="form-container">
+            <label class="radioButton">IP address
+                <input type="radio" id="option1" name="radioGroup" value="option1" onclick="toggleCheckbox(this)">
+                <span class="checkmark"></span>
+            </label>
+            <label class="radioButton">analog
+                <input type="radio" id="option2" name="radioGroup" value="option2" onclick="toggleCheckbox(this)">
+                <span class="checkmark"></span>
+            </label>
+            <label class="radioButton">digital
+                <input type="radio" id="option3" name="radioGroup" value="option3" onclick="toggleCheckbox(this)">
+                <span class="checkmark"></span>
+            </label>
+            <label class="radioButton">logo
+                <input type="radio" id="option4" name="radioGroup" value="option4" onclick="toggleCheckbox(this)">
+                <span class="checkmark"></span>
+            </label>
+            <label class="radioButton">weather
+                <input type="radio" id="option5" name="radioGroup" value="option5" onclick="toggleCheckbox(this)">
+                <span class="checkmark"></span>
+            </label>
+            <label class="radioButton">image
+                <input type="radio" id="option6" name="radioGroup" value="option6" onclick="toggleCheckbox(this)">
+                <span class="checkmark"></span>
+            </label>
+
+        </form>
+  
+ 		<button class="button-1" id="configure-weather">config weather</button>
+		<button class="button-2" id="reset-wifi">config wifi</button>
+		<button class="button-3" id="file-browser">file browser</button>
+		<button class="button-4" id="image-manager">image manager</button>
+ 
+
+        <script src="index.js"></script>
+    </body>
+</html>

@@ -1,0 +1,180 @@
+/* CSS styles */
+/* CSS styles */
+body {
+  position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  h1 {
+    font-size: 30px;
+    font-family: Arial;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    text-align: center;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+  
+  h2 {
+    font-size: 21px;
+    font-family: Arial;
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    text-align: center;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+  
+  h3 {
+    font-size: 18px;
+    font-family: Arial;
+    position: absolute;
+    top: 90px;
+    left: calc(50% - 150px);
+    text-align: left;
+    height: 28px;
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  h4 {
+    font-size: 18px;
+    font-family: Arial;
+    position: absolute;
+    top: 115px;
+    left: calc(50% - 150px);
+    text-align: left;
+    height: 28px;
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  h5 {
+    font-size: 18px;
+    font-family: Arial;
+    position: absolute;
+    top: 140px;
+    left: calc(50% - 150px);
+    text-align: left;
+    height: 28px;
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  
+  button {
+    font-size:17px;
+    font-family:Arial;
+    width:185px;
+    height:36px;
+    border-width:0px;
+    margin: 5px;
+    color:rgba(33, 150, 243, 1);
+    border-color:rgba(33, 150, 243, 1);
+    font-weight:bold;
+    border-top-left-radius:6px;
+    border-top-right-radius:6px;
+    border-bottom-left-radius:6px;
+    border-bottom-right-radius:6px;
+    background:rgba(211, 211, 211, 1);
+  }
+  
+  button:hover {
+    background: rgba(155, 155, 155, 1)
+  }
+  
+  button:active {
+    background: rgba(155, 155, 155, 1)
+  }        
+  
+  button:focus {
+    background: rgba(211, 211, 211, 1);
+  }
+  
+  .button-1 {
+    position: absolute;
+    top: 370px;
+    left: calc(50% - 93px);
+  }
+  
+  .button-2 {
+    position: absolute;
+    top: 415px;
+    left: calc(50% - 93px);
+  }
+  
+  .text1 {
+    font-size:16px;
+    font-family:Arial;
+    color: black;
+    font-weight:bold;
+    position: absolute;
+    left: 50%;
+    top: 305px;
+    text-align: center;
+    transform: translateX(-50%);
+  }
+  
+  .text2 {
+    font-size:16px;
+    font-family:Arial;
+    color: black;
+    font-weight:bold;
+    position: absolute;
+    left: 50%;
+    top: 330px;
+    text-align: center;
+    transform: translateX(-50%);
+  }
+
+input {
+    font-size: 16px;
+    font-family:Arial;
+    color: black;
+    border: 3px solid;  
+    border-radius: 6px;
+    border-color: #c0c0c0;
+}
+  
+  .input1 {
+    position: absolute;
+    right: calc(50% - 150px);
+    top: 108px;
+    height: 28px;
+    width: 220px;
+  }
+  
+  .input2 {
+    position: absolute;
+    right: calc(50% - 150px);
+    top: 139px;
+    height: 28px;
+    width: 220px;
+  }
+  
+  .input3 {
+    position: absolute;
+    top: 170px;
+    height: 28px;
+    width: 160px;
+    right: calc(50% - 150px);
+  }
+  
+  #w_data {
+    position: absolute;
+    left: 50%;
+    top: 210px;
+    transform: translateX(-50%);
+  }

@@ -1,0 +1,35 @@
+<html>
+<html lang="de">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="UTF-8">
+    <title>ESP File Manager</title>
+    <link rel="stylesheet" type="text/css" href="fileManager.css" media="all">
+
+</head>
+	<body>
+ 	    <h1>ESP Flash File System</h1>
+  	  	<div class="file-list" id="file-list"></div>
+		<button class="button-1" id="upload-file">upload file</button>
+		<button class="button-2" id="download-file">download file</button>
+		<button class="button-3" id="make-dir">make directory</button>
+		<button class="button-4" id="rename">rename</button>
+		<button class="button-5" id="delete">delete</button>
+		<button class="button-6" id="copy">copy</button>
+		<button class="button-7" id="move">move</button>
+		<img id="image-preview" src="" alt="Selected Image">
+    	<p class="text3" id="fileSize"></p>
+		<p class="text6" id="diskSpace">diskspace</p>
+		<textarea class="text4" id="text-box"></textarea>
+		<textarea class="text5" id="text-selected-file"></textarea>
+        <button class="button-8" id="fm-done">done</button>
+        <div id="border1"></div>
+        <div id="border2"></div>
+        <div id="border3"></div>
+
+    	<script src="fileManager.js"></script>
+
+	</body>
+</html>
+

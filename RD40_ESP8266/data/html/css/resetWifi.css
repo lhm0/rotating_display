@@ -1,0 +1,105 @@
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 30px;
+    font-family: Arial;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline;
+    text-align: center;
+    white-space: nowrap;
+}
+
+h2 {
+    font-size: 18px;
+    font-family: Arial;
+    position: absolute;
+    top: 95px;
+    left: calc(50% - 130px);
+    text-align: left;
+}
+  
+h3 {
+    font-size: 18px;
+    font-family: Arial;
+    position: absolute;
+    top: 126px;
+    left: calc(50% - 130px);
+    text-align: left;
+}
+
+input {
+    font-size: 16px;
+    font-family:Arial;
+    color: black;
+    border: 3px solid;  
+    border-radius: 6px;
+    border-color: #c0c0c0;
+}
+  
+  .input1 {
+    position: absolute;
+    right: calc(50% - 140px);
+    top: 108px;
+    height: 28px;
+    width: 165px;
+  }
+  
+  .input2 {
+    position: absolute;
+    right: calc(50% - 140px);
+    top: 139px;
+    height: 28px;
+    width: 165px;
+  }
+
+  button {
+    font-size:17px;
+    font-family:Arial;
+    width:275px;
+    height:36px;
+    border-width:0px;
+    margin: 5px;
+    color:rgba(33, 150, 243, 1);
+    border-color:rgba(33, 150, 243, 1);
+    font-weight:bold;
+    border-top-left-radius:6px;
+    border-top-right-radius:6px;
+    border-bottom-left-radius:6px;
+    border-bottom-right-radius:6px;
+    background:rgba(211, 211, 211, 1);
+}
+
+button:hover {
+    background: rgba(155, 155, 155, 1)
+}
+
+button:active {
+    background: rgba(155, 155, 155, 1)
+}        
+
+button:focus {
+    background: rgba(211, 211, 211, 1);
+  }
+
+.button-1 {
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.button-2 {
+    position: absolute;
+    top: 250px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+

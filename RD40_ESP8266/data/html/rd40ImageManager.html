@@ -1,0 +1,49 @@
+<html>
+<html lang="de">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="UTF-8">
+    <title>RD40 Image Generator</title>
+    <link rel="stylesheet" type="text/css" href="rd40ImageManager.css" media="all">
+
+</head>
+	<body>
+ 	    <h1>RD40 Image Manager</h1>
+  	  	<div class="file-list" id="file-list"></div>
+		<h3>RD40 image generator</h3>
+		<button class="button-1" id="load-img">load image</button>
+        <h4>threshold</h4>
+		<h6>file selection</h6>
+        <input type="range" id="thresholdSlider" min="10" max="100" value="50" step="1" class="slider">
+		<button class="button-2" id="invert">invert</button>
+        <button class="button-3" id="save-rd40">save .rd40</button>
+		<img id="image-preview" src="" alt="Selected Image">
+    	<p class="text3" id="fileSize"></p>
+		<p class="text6" id="diskSpace">diskspace</p>
+		<textarea class="text4" id="text-box"></textarea>
+		<textarea class="text5" id="text-selected-file"></textarea>
+    	<p class="text1" id="selected-clock-face"></p>
+    	<p class="text2" id="selected-logo"></p>
+		<img id="image-rd40" src="">
+		<p class="text7" id="rd40-filename"></p>
+		<h5>RD40 image selection</h5>
+        <button class="button-4" id="select-clock-face">select clock face</button>
+		<button class="button-8" id="clr-clock-face">clear clock face</button>
+      	<button class="button-5" id="select-logo">select logo</button>
+      	<button class="button-7" id="select-image">select image</button>
+		<p class="text8" id="rd40-clock-face">clockFaceFilename.rd40</p>
+		<p class="text9" id="rd40-logo">logoFilename.rd40</p>
+		<p class="text10" id="rd40-image">imageFilename.rd40</p>
+        <button class="button-6" id="fm-done">done</button>
+        <div id="border1"></div>
+        <div id="border2"></div>
+        <div id="border3"></div>
+        <div id="border4"></div>
+        <div id="border5"></div>
+
+    	<script src="rd40ImageManager.js"></script>
+
+	</body>
+</html>
+

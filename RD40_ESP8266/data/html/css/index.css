@@ -1,0 +1,186 @@
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 30px;
+    font-family: Arial;
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline;
+    text-align: center;
+    white-space: nowrap;
+}
+
+h2 {
+    font-size: 18px;
+    font-family: Arial;
+    font-weight: bold;
+    position: absolute;
+    top: 70px;
+    left: calc(50% - 70px);
+}
+
+.text1 {
+    font-size: 18px;
+    font-family: Arial;
+    font-weight: bold;
+    position: absolute;
+    top: 67px;
+    left: calc(50% + 35px);
+}
+
+.slider {
+    -webkit-appearance: none;
+    position: absolute;
+    top: 120px;
+    left: calc(50% - 150px);
+    width: 300px;
+    height: 10px;
+    border-radius: 3px;  
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 12px; 
+    background: #2196F3;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 12px;
+    background: #2196F3;
+    cursor: pointer;
+}
+
+.form-container {
+  position: absolute;
+  top: 180px;
+  left: calc(50% - 50px);
+}
+
+.radioButton {
+    display: block;
+    position: relative;
+    margin-bottom: 15px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;    
+    font-size: 18px;
+    font-family: Arial;
+    font-weight: bold;    
+}
+
+.radioButton input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.radioButton:hover input[type="radio"] ~ .checkmark {
+    background-color: #ccc;
+}
+
+.radioButton input[type="radio"]:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+.radioButton input[type="radio"]:checked ~ .checkmark:after {
+    display: block;
+}
+
+.radioButton .checkmark:after {
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 12px;
+    background: white;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: -40px;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 12px;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+button {
+    font-size:17px;
+    font-family:Arial;
+    width:175px;
+    height:36px;
+    border-width:0px;
+    margin: 5px;
+    color:rgba(33, 150, 243, 1);
+    border-color:rgba(33, 150, 243, 1);
+    font-weight:bold;
+    border-top-left-radius:6px;
+    border-top-right-radius:6px;
+    border-bottom-left-radius:6px;
+    border-bottom-right-radius:6px;
+    background:rgba(211, 211, 211, 1);
+}
+
+button:hover {
+    background: rgba(155, 155, 155, 1)
+}
+
+button:active {
+    background: rgba(155, 155, 155, 1)
+}        
+
+button:focus {
+    background: rgba(211, 211, 211, 1);
+  }
+
+.button-1 {
+    position: absolute;
+    top: 395px;
+    left: calc(50% - 185px);
+}
+
+.button-2 {
+    position: absolute;
+    top: 395px;
+    left: calc(50% + 5px);
+}
+
+.button-3 {
+    position: absolute;
+    top: 440px;
+    left: calc(50% - 185px);
+}
+
+.button-4 {
+    position: absolute;
+    top: 440px;
+    left: calc(50% + 5px);
+}
