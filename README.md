@@ -47,6 +47,7 @@ There are several operating modes that display time and weather information (**f
 <p align="center"> 
   <img src="images/figure04.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
+
 **Figure 4: operating modes.** Modes can be selected and configured through the web interface.
 
 **3. Mechanical design**
