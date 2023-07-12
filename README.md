@@ -12,7 +12,7 @@
 The Rotating Display device comprises two primary units: a power supply unit and a display board (**figure 1**). Both are circular in design, with a diameter of 120mm, similar to the dimensions of a standard Compact Disk. The display board is rotated by a CD motor. Energy is wirelessly transmitted from the power supply unit to the display board, eliminating the need for wired connections.
 
 <p align="center"> 
-  <img src="images/figure01.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure01.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
 
@@ -23,9 +23,9 @@ The display board is equipped with two rows of LEDs, each containing 20 LEDs. Th
 This internet connection allows the device to retrieve the time from a time server, ensuring time accuracy. It also allows for the acquisition of weather data. Device operation is managed through a web interface (**figure 2**), accessible from any web browser. The interface allows users to manage login credentials, upload image files to the display, and control image and configuration files through a file manager.
 
 <p align="center"> 
-  <img src="images/figure02a.jpg" style="display: inline-block; margin: 20px; max-width: 500px">
-  <img src="images/figure02b.jpg" style="display: inline-block; margin: 20px; max-width: 500px">
-  <img src="images/figure02c.jpg" style="display: inline-block; margin: 20px; max-width: 500px">
+  <img src="images/figure02a.jpeg" style="display: inline-block; margin: 20px; max-width: 500px">
+  <img src="images/figure02b.jpeg" style="display: inline-block; margin: 20px; max-width: 500px">
+  <img src="images/figure02c.jpeg" style="display: inline-block; margin: 20px; max-width: 500px">
 </p>
 
 **Figure 2:** The **web user interface** allows for operating mode selection and device configuration.
@@ -37,7 +37,7 @@ When switched on, the device tries to connect to a known wifi. If no valid wifi 
 Once the wifi connection has been established, the unit will display its IP address on the  home page of the device (**figure 3**). Enter this address in your web browser. This will load the web user interface and will allow you to configure your local wifi.
 
 <p align="center"> 
-  <img src="images/figure03.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure03.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
 **Figure 3: home page.**
@@ -45,7 +45,7 @@ Once the wifi connection has been established, the unit will display its IP addr
 There are several operating modes that display time and weather information (**figure 4**). The logo clock mode integrates a customizable image into the clock face. The image can be easily uploaded from the user interface. The same is true for the analog clock, which uses a customizable clock face in the background.
 
 <p align="center"> 
-  <img src="images/figure04.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure04.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 **Figure 4: operating modes.** Modes can be selected and configured through the web interface.
 
@@ -54,7 +54,7 @@ There are several operating modes that display time and weather information (**f
 The device consists of two assemblies: power supply and display. The power supply board is also the base plate, which can either be placed on a flat surface or hung on a wall. A standard CD motor is inserted through a recess in this board so that the CD tray above the board can accommodate the display assembly. The display board is fixed with two M2 screws. Furthermore, the base plate carries a potentiometer to control the motor speed as well as an on/off switch for the motor.
 
 <p align="center"> 
-  <img src="images/figure05.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure05.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
 **Figure 5: Power Supply Board** with CD motor (middle), 12V power jack (lower side), and speed potentiometer
@@ -62,13 +62,13 @@ The device consists of two assemblies: power supply and display. The power suppl
 An important requirement for the display board is that the center of mass of the unit is exactly in the middle, on the axis of rotation of the motor. This is the only way to ensure smooth and vibration-free running of the display. To achieve this, the electronic components are arranged as symmetrically as possible to the vertical axis of symmetry in **figure 7**. This initially ensures that the center of gravity lies on this vertical axis. However, since the components cannot be distributed symmetrically to the horizontal axis of symmetry, the center of gravity must be shifted to the center along this axis using balancing weights. For this purpose, two M2x6mm screws with two nuts each are placed to the right and left of the Arduino nano. The balancing result is very good, but can certainly be further optimized.
 
 <p align="center"> 
-  <img src="images/figure06.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure06.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
 **Figure 6: Display Board.** Main components are the two LED rows, five serial shift register chips, and two microcontrollers (Arduino nano and ESP-01s). On the backside of the board the secondary coil of the wireless power supply is attached.
 
 <p align="center"> 
-  <img src="images/figure07.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure07.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
 **Figure 7:** The components of the display board are arranged symmetrically to the vertical axis of symmetry. Therefore, the center of gravity is located on this axis. The vertical position of the center of gravity is adjusted to the middle by means of adjustment weights.
@@ -76,7 +76,7 @@ An important requirement for the display board is that the center of mass of the
 The two LED rows each consist of 20 discrete, rectangular LEDs. The components each have a width of 2mm and can be lined up without spacing. However, the light emitting surface of the LEDs has a diameter of only about 1mm. Thus, there is a 1mm gap between the light points. To fill these gaps, the second row of LEDs is used. It is inclined by 90 degrees along the angle of rotation. Radially, the two LED rows are shifted by 1 mm, creating a dot pattern without gaps (**figure 8**).
 
 <p align="center"> 
-  <img src="images/figure08.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure08.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
 **Figure 8:** The two LED rows are displaced radially by half a LED width
@@ -88,7 +88,7 @@ The LEDs must output the image information at exactly the right position with ea
 The distribution of the electronic circuitry between the two assemblies is shown in **figure 9**. The power supply assembly contains a Royer converter for wireless power transfer to the display assembly and an adjustment of the motor speed. The 40 LEDs of the display assembly are controlled by 5 shift registers (8 bits each), which in turn are supplied with clock and data by an Arduino nano via an SPI interface. The displayed content is generated by an ESP-01s microcontroller, which is connected to the internet via Wifi. It transmits its data to the Arduino nano via an I2C interface.
 
 <p align="center"> 
-  <img src="images/figure09.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure09.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
 **Figure 9: electronics schematics.**
@@ -100,7 +100,7 @@ The core of the power supply is a Royer converter for wireless power transfer. A
 The Royer circuit uses very few components. However, the coil is quite complex. It is a bifilar coil, where the two halves are interleaved. In addition, the coupling coil must be connected with the correct polarity, otherwise the two transistors will be destroyed. In the early stages of development, the coil was wound with copper wire. However, this solution was quite difficult to reproduce, so in the final design the coils (bifilar primary coil, coupling coil, secondary coil) were implemented as a printed circuit (see **figure 5**, left and **figure 6** right). The circuit was found to have surprisingly high and perfectly adequate transmission efficiency, although the quality factor of the printed coils is inevitably compromised. The Royer converter with the printed coil assembly is absolutely safe to rebuild.
 
 <p align="center"> 
-  <img src="images/figure10.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure10.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
 **Figure 10: Royer converter**. Compare Mikrocontroller.net for reference.
@@ -109,7 +109,7 @@ The Royer circuit uses very few components. However, the coil is quite complex. 
 There is also a circuit for supplying the CD motor on the power supply board (**figure 11**). An LM317 voltage regulator is used to generate a variable voltage between 1.7V and 6.0V, which can be adjusted via a potentiometer. The voltage range corresponds to the specified operating range of the CD motor. The supply of the motor can be interrupted with a switch, for example to allow programming of the microcontrollers.
 
 <p align="center"> 
-  <img src="images/figure11.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure11.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
 **Figure 11: variable voltage regulator** for driving the CD motor
@@ -123,7 +123,7 @@ The 40 LEDs of the display board are driven by 5 cascaded 8-bit shift registers 
 The SPI interface is operated with a clock rate of 16 MHz. The 40 bits are therefore transferred in 40 x 1/16MHz = 2.5µs. Assuming a maximum rotation speed of the display of 2000 RPM, this corresponds to 30ms per revolution. At one full rotation of the display 240 pixels are output per LED. This corresponds to 125µs per pixel. Thus, the transmission time via the SPI bus (2.5µs) is significantly shorter than the display time per pixel.
 
 <p align="center"> 
-  <img src="images/figure12.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure12.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
 **Figure 12: circuit diagram of the display board**. Diagram also available as download and on Github.
@@ -139,7 +139,7 @@ Another important function is to set the duration of timer 1 so that exactly 240
 To control the brightness of the LEDs, the threshold function of timer 1 is used: as soon as a programmable threshold is exceeded, an output of the Arduino switches. The signal is used to switch on the LEDs for the selected time. The principle is similar to the well known pulse width modulation. However, the pulses are synchronized with the pixel clock.
 
 <p align="center"> 
-  <img src="images/figure13.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure13.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
 **Figure 13: Arduino interrupt timing.** Timer 1 clocks the pixel output and sets the LED brightness.
@@ -167,7 +167,7 @@ The ESP-01s handles the generation of the image data and its transmission to the
 Even though the resolution of the display achieved with the 40 LEDs is relatively low, it is sufficient to display images and text upright, undistorted and therefore easily readable. The image data is generated in a rectangular pixel matrix (i.e. a cartesian coordinate system) with 110 x 110 pixels (**figure 14**). This bitmap then has to be transformed into the polar coordinate system of the rotating LED rows, before it is transferred to the Arduino. To make the transformation fast, a lookup table is used, which transforms the x,y coordinates of the bitmap into the r, theta coordinates of the rotating LED lines. The transformation also takes into account the alternating order of the LEDs between the two rows and the 90 degree angle between the two rows.
 
 <p align="center"> 
-  <img src="images/figure14.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure14.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
 **Figure 14:** The display handles a **110x110 pixel bitmap**, which is transformed into the polar coordinate system of the rotating LED rows
@@ -211,38 +211,38 @@ The device mainly uses standard components that are easy to obtain. The only exc
 In the following some hints for the assembly are given. The assembly is simple, especially since almost only through-hole components are used. Nevertheless, good soldering skills are required. As a beginner project the device is only conditionally suitable.
 
 <p align="center"> 
-  <img src="images/figure15.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure15.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
 **Figure 15:** Start with the assembly of the power supply board. Insert and solder all electronic components, Afterwards, insert the CD motor from the soldering side and bond it with a fast curing two component epoxy resin.
 
 <p align="center"> 
-  <img src="images/figure16.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure16.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
 **Figure 16:** Two M2 nuts are glued into the CD tray PCB. It is attached with double-sided adhesive tape to the back side of the CD motor tray. Two M2 screws may help to bring the PCB into the right position.
 
 <p align="center"> 
-  <img src="images/figure17.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure17.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
 **Figure 17:** The rubber bumpers are glued to the ends of the 20 mm long bolts with the epoxy resin. The magnet is then glued into the hole provided for it. Attention: the correct orientation of the magnet (with the right side up) is very important! Make sure that the device works properly before you glue the magnet!
 
 <p align="center"> 
-  <img src="images/figure18.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure18.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
 **Figure 18:** Continue with the display board assembly. First prepare the LEDs by shortening the wires. Insert them one row at a time. Hold the LEDs in place with tape before soldering. Note: The LEDs must be inserted in the correct orientation. Use the picture as a reference to identify the cathode and anode of the components. Note the marking on the PCB (A = Anode, K = Cathode).
 
 <p align="center"> 
-  <img src="images/figure19a.jpg" style="display: inline-block; margin: 20px; max-width: 305px">
-  <img src="images/figure19.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure19a.jpeg" style="display: inline-block; margin: 20px; max-width: 305px">
+  <img src="images/figure19.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
 **Figure 19:** Note: The Hall sensor is the only component, that is inserted through the holes from the soldering side! It needs to be installed before you insert the Arduino nano, as the Hall sensor is soldered on the component side of the PCB.
 
 <p align="center"> 
-  <img src="images/figure20.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure20.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
 **Figure 20:** When all components are installed, the secondary coil PCB can be attached using 4 pins.
