@@ -254,12 +254,12 @@ The rotating display works according to a simple principle. However, the develop
 
 Worth mentioning are:
 
-Simple design with few mechanical components
-Replicable wireless power supply with printed coils
-Alternating arrangement of LEDs to achieve higher resolution
-Complete balancing of the display board to ensure vibration-free operation
-Timer controlled clocking of the LEDs and regulation of their brightness
-User-friendly interface via a standard web browser
-Retrieval of time and weather data from the internet
-Implementation of a file browser for the ESP-01’s flash disk for uploading image data
-Transparent, object-oriented structure of the ESP-01s software
+* Simple design with few mechanical components
+* Replicable wireless power supply with printed coils
+* Alternating arrangement of LEDs to achieve higher resolution
+* Complete balancing of the display board to ensure vibration-free operation
+* Timer controlled clocking of the LEDs and regulation of their brightness
+* User-friendly interface via a standard web browser
+* Retrieval of time and weather data from the internet
+* Implementation of a file browser for the ESP-01’s flash disk for uploading image data
+* Transparent, object-oriented structure of the ESP-01s software
