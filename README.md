@@ -1,9 +1,10 @@
-#Rotating Display
+**Rotating Display**
+
 **Abstract:** 
  The Rotating Display is a compact disc-sized device that rotates quietly using a CD motor. It features 40 LEDs that display time and weather data sourced from the internet. The device is wirelessly powered and controlled via a user-friendly web interface. It uses Arduino nano and ESP-01s microcontrollers and is easy to assemble.
  
 <p align="center"> 
-  <img src="images/figure00.jpg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/figure00.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
 **1. Description of the device**
