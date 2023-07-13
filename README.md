@@ -240,7 +240,7 @@ In the following some hints for the assembly are given. The assembly is simple, 
   <img src="images/figure19.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
-**Figure 19:** Note: The Hall sensor is the only component, that is inserted through the holes from the soldering side! It needs to be installed before you insert the Arduino nano, as the Hall sensor is soldered on the component side of the PCB.
+**Figure 19:** Note: The Hall sensor is the only component, that is inserted through the holes from the soldering side! It must be installed before inserting the Arduino nano, because the Hall sensor is soldered to the component side of the board, underneath the Arduino nano.
 
 <p align="center"> 
   <img src="images/figure20.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
