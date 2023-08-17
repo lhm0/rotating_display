@@ -14,11 +14,13 @@
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
+#include <FlashFS.h>
 #include <Wire.h>
 
 #define _SDA 2
 #define _SCL 0
-#define TIME_ZONE "CET-1CEST,M3.5.0/02,M10.5.0/03" // https://github.com/nayarsystems/posix_tz_db/blob/master/zones.csv          
+#define TIME_ZONE "CET-1CEST,M3.5.0/02,M10.5.0/03" // https://github.com/nayarsystems/posix_tz_db/blob/master/zones.csv    
+                                                   // this is only the default (my home ;-)       
 #define NTP "pool.ntp.org"
 
 // =========================================================================================================================================
@@ -101,7 +103,11 @@ void my_ESP::_iniWifi() {
 // =========================================================================================================================================
 
 void my_ESP::setMyTime() {
-  configTime(TIME_ZONE, NTP);
+  _timeZone = _timeZone_f.read_f();
+  if (_timeZone == "") _timeZone = "CET-1CEST,M3.5.0/02,M10.5.0/03";
+  char _timeZone_c[50];
+  strcpy(_timeZone_c, _timeZone.c_str());
+  configTime(_timeZone_c, NTP);
 }
 
 void my_ESP::getMyTime() {

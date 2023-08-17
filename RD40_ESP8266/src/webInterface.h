@@ -41,6 +41,7 @@ class webInterface {
     FlashFS _imagePath_f{"/variables/imagePath.txt"};
     FlashFS _ssid_f{"/variables/ssid.txt"};
     FlashFS _password_f{"/variables/password.txt"};
+    FlashFS _timeZone_f{"/variables/timeZone.txt"};
     static String _currentPath;
 
     int _w_icon=0;

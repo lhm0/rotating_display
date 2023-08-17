@@ -48,6 +48,9 @@ function rd40ImageManager() {
     window.location.href = "/rd40ImageManager";
 }
 
+function timeZone() {
+    window.location.href = "/timeZone";
+}
 
 document.addEventListener("DOMContentLoaded", function(event) { 
     getPageData();
@@ -71,6 +74,11 @@ document.getElementById('file-browser').addEventListener('click', () => {
 // Event listener for "image manager" button
 document.getElementById('image-manager').addEventListener('click', () => {
     rd40ImageManager();
+});
+
+// Event listener for "file browser" button
+document.getElementById('time-zone').addEventListener('click', () => {
+    timeZone();
 });
 
 // Event listener for brightness slider

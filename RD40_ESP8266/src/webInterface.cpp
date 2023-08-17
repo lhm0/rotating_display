@@ -40,6 +40,7 @@
 
 #include "my_ESP.h"
 #include "webInterface.h"
+#include "webinterface_data.h"
 #include "FlashFS.h"
 #include "RD_40.h"
 #include <Arduino.h>
@@ -521,6 +522,101 @@ void webInterface::_startServer() {
     serializeJson(doc, response);
     request->send(200, "application/json", response);
   });
+
+  // ====================================================================================
+  // time zone
+  // ====================================================================================
+
+
+  _server.on("/timeZone", HTTP_GET, [this](AsyncWebServerRequest *request) {
+    request->send(LittleFS, "/html/timeZone.html", "text/html");
+  });
+
+  _server.on("/timeZone.css", HTTP_GET, [this](AsyncWebServerRequest *request) {
+    request->send(LittleFS, "/html/css/timeZone.css", "text/css");
+  });
+
+  _server.on("/timeZone.js", HTTP_GET, [this](AsyncWebServerRequest *request) {
+    request->send(LittleFS, "/html/scripts/timeZone.js", "text/javascript");
+  });
+
+
+  _server.on("/timeZoneData", HTTP_GET, [this](AsyncWebServerRequest *request) {
+    
+    String part;
+    if (request->hasParam("part")) {
+      part = request->getParam("part")->value();
+    }
+
+    Serial.print("Aufruf /timeZoneData: ");
+    Serial.println(part);
+
+    // Create a JSON document
+    StaticJsonDocument<2048> doc;
+
+    // Create an array in the JSON document
+    JsonArray timeZoneArray = doc.to<JsonArray>();
+
+    int part_i = part.toInt()-1;
+    // Iterate through the timeZones array and add objects to the JSON array
+    for (int i = part_i*20; i < (20+part_i*17); i++) {
+      char location[50];
+      char timeZone[50];
+      char timeDifference[50];
+
+      // Read data from PROGMEM and copy it to SRAM variables
+      for (byte k = 0; k < 50; k++) {
+          location[k] = pgm_read_byte_near(timeZones[0][i] + k);
+          timeZone[k] = pgm_read_byte_near(timeZones[1][i] + k);
+          timeDifference[k] = pgm_read_byte_near(timeZones[2][i] + k);
+      }
+
+      char entry[150];
+      strcpy(entry, location);
+      strcat(entry, ": ");
+      strcat(entry, timeZone);
+      strcat(entry, " (");
+      strcat(entry, timeDifference);
+      strcat(entry, ")");
+
+    JsonObject timeZoneObj = timeZoneArray.createNestedObject();
+      timeZoneObj["entry"] = entry;
+    }
+    // Serialize the JSON document to a string
+    String jsonString;
+    serializeJson(doc, jsonString);
+
+    // Set the Content-Type header to application/json
+    request->send(200, "application/json", jsonString);
+  });
+
+  _server.on("/timeZoneUpdate", HTTP_GET, [this] (AsyncWebServerRequest *request) {
+    if (request->hasParam("value")) {
+      String newTimeZone = request->getParam("value")->value();
+      int newTimeZone_i = newTimeZone.toInt();
+      Serial.println("new time zone = " + newTimeZone);
+
+      char timeZone[50];
+
+      // Read data from PROGMEM and copy it to SRAM variables
+      for (byte k = 0; k < 50; k++) {
+          timeZone[k] = pgm_read_byte_near(timeZones[3][newTimeZone_i - 1] + k);
+      }
+
+      String timeZone_s(timeZone);
+      _timeZone_f.write_f(timeZone_s);
+
+      my_ESP ESP_temp;
+      ESP_temp.setMyTime(); 
+
+      Serial.println(timeZone_s);
+
+    } else {
+      Serial.println("no time zone sent");
+    }
+    request->send(200, "text/plain", "OK");
+  });
+
 
   // ====================================================================================
   // Start server

@@ -1,0 +1,102 @@
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 30px;
+    font-family: Arial;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.timeZone-list {
+    position: absolute;
+    left: calc(50% - 150px);
+    top: 70px;
+    text-align: left;
+    font-size: 16px;
+    font-family:Arial;
+    font-weight:bold;
+    color:rgba(33, 150, 243, 1);
+    height: 180px;
+    width: 300px;
+    overflow: scroll;
+    border: 3px solid;
+    border-color:rgb(188, 190, 191);
+    border-radius: 6px; 
+    padding: 5px;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.selected {
+    background-color: #e0e0e0;
+  }
+
+.directory {
+    color: rgb(53, 53, 53);
+}
+
+button {
+    font-size:17px;
+    font-family:Arial;
+    width:175px;
+    height:36px;
+    border-width:0px;
+    margin: 5px;
+    color:rgba(33, 150, 243, 1);
+    border-color:rgba(33, 150, 243, 1);
+    font-weight:bold;
+    border-top-left-radius:6px;
+    border-top-right-radius:6px;
+    border-bottom-left-radius:6px;
+    border-bottom-right-radius:6px;
+    background:rgba(211, 211, 211, 1);
+}
+
+button:hover {
+    background: rgba(155, 155, 155, 1)
+}
+
+button:active {
+    background: rgba(155, 155, 155, 1)
+}        
+
+button:focus {
+    background: rgba(211, 211, 211, 1);
+  }
+
+.button-1 {
+    position: absolute;
+    top: 285px;
+    left: calc(50% - 88px);
+}
+
+/* Additional styles for the time zone entries */
+.timeZone-entry {
+    padding: 1px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    white-space: nowrap; /* Prevent line wrapping */
+}
+
+.timeZone-entry:hover {
+    background-color: rgba(200, 200, 200, 0.8);
+}
+
+.timeZone-entry:last-child {
+    border-bottom: none; /* Remove border from the last entry */
+}

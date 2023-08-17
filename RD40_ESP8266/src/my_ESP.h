@@ -36,9 +36,11 @@ class my_ESP {
 
     FlashFS _ssid_f{"/variables/ssid.txt"};
     FlashFS _password_f{"/variables/password.txt"};
+    FlashFS _timeZone_f{"/variables/timeZone.txt"};
 
     String _ssid;                          // ssid read from ssid.txt
     String _password;                      // password read from password.txt
+    String _timeZone;                      // POSIX for selected time zone
 
   public:
     my_ESP();                              // Constructor
