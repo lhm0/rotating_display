@@ -70,6 +70,14 @@ document.getElementById('selectTimeZone').addEventListener('click', () => {
   if (selectedEntryIndex !== -1) {
     selectedEntryNumber = selectedEntryIndex + 1;
     console.log('Selected entry number:', selectedEntryNumber);
+
+  // Get the selected entry's text
+  const selectedEntryText = document.querySelectorAll('.timeZone-entry')[selectedEntryIndex].textContent;
+
+  // Display the selected entry in the HTML field with id=selectedTimeZone
+  const selectedTimeZoneField = document.getElementById('selectedTimeZone');
+  selectedTimeZoneField.textContent = `Selected time zone: ${selectedEntryText}`;
+
   } else {
     console.log('No entry selected.');
   }
@@ -79,6 +87,11 @@ document.getElementById('selectTimeZone').addEventListener('click', () => {
   xhr.send();
 
   selectedEntryIndex = -1;
+
+});
+
+// Event listener for done button
+document.getElementById('done').addEventListener('click', () => {
 
   window.location.href = "/configDone";
 });

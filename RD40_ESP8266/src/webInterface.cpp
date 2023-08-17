@@ -591,6 +591,7 @@ void webInterface::_startServer() {
   });
 
   _server.on("/timeZoneUpdate", HTTP_GET, [this] (AsyncWebServerRequest *request) {
+    Serial.println("/timeZoneUpdate called");
     if (request->hasParam("value")) {
       String newTimeZone = request->getParam("value")->value();
       int newTimeZone_i = newTimeZone.toInt();

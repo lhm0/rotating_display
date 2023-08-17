@@ -81,7 +81,13 @@ button:focus {
 
 .button-1 {
     position: absolute;
-    top: 285px;
+    top: 320px;
+    left: calc(50% - 88px);
+}
+
+.button-2 {
+    position: absolute;
+    top: 365px;
     left: calc(50% - 88px);
 }
 
@@ -99,4 +105,16 @@ button:focus {
 
 .timeZone-entry:last-child {
     border-bottom: none; /* Remove border from the last entry */
+}
+
+.text1 {
+    font-size:16px;
+    font-family:Arial;
+    color:rgba(33, 150, 243, 1);
+    font-weight:bold;
+    position: absolute;
+    left: calc(50% - 150px);
+    top: 260;
+    width: 300px;
+    height: 50px;
 }
