@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "RD40_display_SMD-rescue")(type "KiCad")(uri "${KIPRJMOD}/RD40_display_SMD-rescue.kicad_sym")(options "")(descr ""))
+)
