@@ -85,8 +85,17 @@ void my_ESP::_iniWifi() {
   }
 
   if (WiFi.status() != WL_CONNECTED) {
+
+    WiFi.mode(WIFI_OFF);
+    delay(1000);
+    ESP.eraseConfig();                      // supposed to fix connectivity issue of ESP8266
+    WiFi.mode(WIFI_AP);                     //
+    IPAddress apIP(192, 168, 4, 1);         //
+    IPAddress subnet(255,255,255,0);        //
+    WiFi.softAPConfig(apIP, apIP, subnet);  //
+
     ssid = "RD40";
-    WiFi.softAP(ssid,"",1,false,5);
+    WiFi.softAP(ssid);                      //
 
     ipAddress = WiFi.softAPIP().toString();
 
