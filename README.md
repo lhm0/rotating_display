@@ -7,6 +7,19 @@
   <img src="images/figure00.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </p>
 
+<p align="center"> 
+<a href="https://youtu.be/7XahXYzULtI?si=OmdDaNnT-Jkq3F4Q" target="_blank">
+  <img src="images/YT2.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
+</a>
+</p> 
+
+<p align="center"> 
+<a href="https://youtu.be/tHjmvry00_w?si=LjtpMpMhL_XMzbsv" target="_blank">
+  <img src="images/YT1.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
+</a>
+</p> 
+
+
 ## 1. Description of the device
 
 The Rotating Display device comprises two primary units: a power supply unit and a display board (**figure 1**). Both are circular in design, with a diameter of 120mm, similar to the dimensions of a standard Compact Disk. The display board is rotated by a CD motor. Energy is wirelessly transmitted from the power supply unit to the display board, eliminating the need for wired connections.
