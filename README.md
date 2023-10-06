@@ -9,13 +9,13 @@
 
 <p align="center"> 
 <a href="https://youtu.be/7XahXYzULtI?si=OmdDaNnT-Jkq3F4Q" target="_blank">
-  <img src="images/YT2.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/yt2.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </a>
 </p> 
 
 <p align="center"> 
 <a href="https://youtu.be/tHjmvry00_w?si=LjtpMpMhL_XMzbsv" target="_blank">
-  <img src="images/YT1.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
+  <img src="images/yt1.jpeg" style="display: inline-block; margin: 20px; max-width: 600px">
 </a>
 </p> 
 
