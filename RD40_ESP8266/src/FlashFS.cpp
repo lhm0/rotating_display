@@ -46,7 +46,8 @@ bool FlashFS::begin() {
 String FlashFS::read_f() {
   File file = LittleFS.open(_path.c_str(), "r");
   if (!file) {
-    Serial.println("Failed to open file for reading");
+    Serial.print("Failed to open file for reading : ");
+    Serial.println(_path);
     return "";
   }
   String text = file.readString();

@@ -37,6 +37,22 @@
         document.getElementById("inputField1").value = data.apiKey;
         document.getElementById("inputField2").value = data.location;
         document.getElementById("inputField3").value = data.country;
+      })
+      .catch((error) => {
+        console.error('Error on Request:', error); 
+      });
+  }
+
+  function getWeather() {
+    fetch('/getWeather')
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Error on request. Status: ' + response.status);
+        }
+      })
+      .then((data) => {
         document.getElementById("w_temp").innerHTML = "temperature: " + data.w_temp + "°C";
         document.getElementById("w_humi").innerHTML = "humidity: " + data.w_humi + "%";
         var path = "/w_img" + data.w_icon + ".PNG";
@@ -59,13 +75,17 @@
   }
 
   function configDone() {
-      window.location.href = "/configDone";
+    window.location.href = "/configDone";
   }
 
 // Event listener for when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Document loaded.');
   getWeatherParam();
+  getWeather();
+
+   // Set up a timer to call getWeatherParam() every 2 seconds
+   setInterval(getWeather, 2000);
 });
 
 // Event listener for update data button
