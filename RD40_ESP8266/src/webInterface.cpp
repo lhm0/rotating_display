@@ -13,7 +13,7 @@
 
 #include <AsyncEventSource.h>
 #include <AsyncJson.h>
-#include <AsyncWebSocket.h>
+// #include <AsyncWebSocket.h>
 #include <AsyncWebSynchronization.h>
 #include <ESPAsyncWebServer.h>
 #include <StringArray.h>
@@ -39,6 +39,7 @@
  */
 
 #include "my_ESP.h"
+#include "my_BMP.h"
 #include "webInterface.h"
 #include "webinterface_data.h"
 #include "FlashFS.h"
@@ -86,9 +87,6 @@ void webInterface::begin(String ssid_) {
 // =========================================================================================================================================
 
 void webInterface::_startServer() {
-  // Start AsyncWebSocket
-  _ws.onEvent(std::bind(&webInterface::_onWsEvent, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5, std::placeholders::_6));
-  _server.addHandler(&_ws);
   
   // ====================================================================================
   // index
@@ -182,6 +180,14 @@ void webInterface::_startServer() {
     doc["apiKey"] = _apiKey_f.read_f();
     doc["location"] = _location_f.read_f();
     doc["country"] = _country_f.read_f();
+
+    String response;
+    serializeJson(doc, response);
+    request->send(200, "application/json", response);
+  });
+
+  _server.on("/getWeather", HTTP_GET, [this](AsyncWebServerRequest *request) {
+    StaticJsonDocument<200> doc;
     doc["w_icon"] = _w_icon;
     doc["w_temp"] = _w_temp;
     doc["w_humi"] = _w_humi;
@@ -190,6 +196,7 @@ void webInterface::_startServer() {
     serializeJson(doc, response);
     request->send(200, "application/json", response);
   });
+
 
   _server.on("/uploadWeatherParam", HTTP_GET, [this](AsyncWebServerRequest *request) {
     if ((request->hasParam("value1"))&&(request->hasParam("value2"))&&(request->hasParam("value3"))){ 
@@ -206,12 +213,13 @@ void webInterface::_startServer() {
       
       _apiKey_f.write_f(apiKey);
       _location_f.write_f(location);
-      _country_f.write_f(country);
+      _country_f.write_f  (country);
+
     }
 
       request->send(200, "text/plain", "OK");
 
-    updateWeather=true;
+      updateWeather=true;
 
   });
 
@@ -222,7 +230,6 @@ void webInterface::_startServer() {
         request->send(LittleFS, webImage, "image/png");
     });
   }
-
 
   // ====================================================================================
   // resetWifi
@@ -626,30 +633,6 @@ void webInterface::_startServer() {
   _server.begin();  
   Serial.println("der Server wurde gestartet");
 
-}
-
-void webInterface::_onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len) {
-  switch (type) {
-    case WS_EVT_CONNECT:
-      Serial.printf("WebSocket client #%u connected from %s\n", client->id(), client->remoteIP().toString().c_str());
-      break;
-    case WS_EVT_DISCONNECT:
-      Serial.printf("WebSocket client #%u disconnected\n", client->id());
-      break;
-    case WS_EVT_DATA:
-      _handleWebSocketMessage(arg, data, len);
-      break;
-    case WS_EVT_PONG:
-    case WS_EVT_ERROR:
-      break;
-  }
-}
-
-void webInterface::_handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
-  AwsFrameInfo *info = (AwsFrameInfo*)arg;
-  if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT) {
-    data[len] = 0;
-  }
 }
 
 void webInterface::updateWI(int w_icon, String w_temp, String w_humi) {
