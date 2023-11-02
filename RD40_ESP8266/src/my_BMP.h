@@ -64,8 +64,6 @@ class my_BMP {
     char _ssid[50]; 
     char _ipAddress[50];
 
-    WiFiClient client;                                            // used in connectOpenWeatherMap() and getWeather();
-
   public:
     unsigned char bitmap[110][14];                                // bitmap with x=110 and y = 14 bytes * 8 bits = 112
     
