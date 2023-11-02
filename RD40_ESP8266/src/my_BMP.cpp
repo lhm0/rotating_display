@@ -429,10 +429,15 @@ void my_BMP::_print_icon_30x20(int p_mode, int i_num, int xpos, int ypos) {
 // =========================================================================================================================================
 
 void my_BMP::getWeather(String apiKey, String location) {
-     char server1[] = "api.openweathermap.org";     
 
-   Serial.println("\nStarting connection to server..."); 
-   if (client.connect(server1, 80)) { 
+    int status = WiFi.status();
+    if (status==WL_CONNECTED) Serial.println("connected to Wifi...");
+    else Serial.println("Wifi connection lost...");
+
+    WiFiClient client;
+    char server1[] = "api.openweathermap.org";     
+    Serial.println("\nStarting connection to server..."); 
+    if ((status==WL_CONNECTED)&&(client.connect(server1, 80))) { 
       Serial.println("connected to server"); 
       // Make a HTTP request: 
       client.print("GET /data/2.5/weather?"); 
@@ -442,18 +447,18 @@ void my_BMP::getWeather(String apiKey, String location) {
       client.println("Host: api.openweathermap.org"); 
       client.println("Connection: close"); 
       client.println(); 
-   } else { 
+    } else { 
       Serial.println("unable to connect"); 
       return;
-   } 
+    } 
 
-   DynamicJsonDocument jsonDoc(2000);
+    DynamicJsonDocument jsonDoc(2000);
   
-   String line; 
+    String line; 
 
-   if (client.connected()) { 
-        line = client.readStringUntil('\n'); 
-        Serial.println("parsingValues"); 
+    if (client.connected()) { 
+      line = client.readStringUntil('\n'); 
+      Serial.println("parsingValues"); 
 
       if(line != "")  //Only do an update, if we got valid data
       {
@@ -485,6 +490,8 @@ void my_BMP::getWeather(String apiKey, String location) {
           Serial.print(w_humi);
           Serial.println(" %"); 
        }
+
+      client.stop();
     }
 }
 
