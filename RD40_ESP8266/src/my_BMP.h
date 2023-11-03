@@ -53,6 +53,7 @@ class my_BMP {
 
     int _iconNumber(String iconText);
     void _hexDump(const char line[], size_t length);
+    String _serverRequest(const char* OpenweatherServer); 
 
     int _myYear;
     int _myMon;
