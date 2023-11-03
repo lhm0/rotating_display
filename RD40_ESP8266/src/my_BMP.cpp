@@ -457,7 +457,13 @@ void my_BMP::getWeather(String apiKey, String location) {
     String line; 
 
     if (client.connected()) { 
-      line = client.readStringUntil('\n'); 
+      line="";
+      int n = 0;
+      while (line=="") {
+        line = client.readStringUntil('\n'); 
+        n++;
+        if (n>20) return;
+      }
 
       char line_c[line.length()];
       std::strcpy(line_c, line.c_str());
