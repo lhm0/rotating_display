@@ -13,6 +13,7 @@
 
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
+#include <esp8266httpclient.h>
 #include <ArduinoJson.h>
 
 // =========================================================================================================================================
@@ -434,77 +435,38 @@ void my_BMP::getWeather(String apiKey, String location) {
     if (status==WL_CONNECTED) Serial.println("connected to Wifi...");
     else Serial.println("Wifi connection lost...");
 
-    WiFiClient client;
-    char server1[] = "api.openweathermap.org";     
-    Serial.println("\nStarting connection to server..."); 
-    if ((status==WL_CONNECTED)&&(client.connect(server1, 80))) { 
-      Serial.println("connected to server"); 
-      // Make a HTTP request: 
-      client.print("GET /data/2.5/weather?"); 
-      client.print("q="+location); 
-      client.print("&appid="+apiKey); 
-      client.println("&units=metric"); 
-      client.println("Host: api.openweathermap.org"); 
-      client.println("Connection: close"); 
-      client.println(); 
-    } else { 
-      Serial.println("unable to connect"); 
-      return;
-    } 
+    String OpenweatherServer = "http://api.openweathermap.org/data/2.5/weather?q=" + location + ",";
+    OpenweatherServer = OpenweatherServer + "&APPID=" + apiKey + "&units=metric";
+
+    String JSONDaten = _serverRequest(OpenweatherServer.c_str());
 
     DynamicJsonDocument jsonDoc(2000);
-  
-    String line; 
-
-    if (client.connected()) { 
-      line="";
-      int n = 0;
-      while (line=="") {
-        line = client.readStringUntil('\n'); 
-        n++;
-        if (n>20) return;
-      }
-
-      char line_c[line.length()];
-      std::strcpy(line_c, line.c_str());
-      size_t length = line.length();
-      _hexDump(line_c, length);
-
-      Serial.println("parsing values"); 
-
-      if(line != "")  //Only do an update, if we got valid data
-      {
-          jsonDoc.clear();                                                //Normally not needed, but sometimes new data will not stored
-          DeserializationError error = deserializeJson(jsonDoc, line);    //Deserialize string to AJSON-doc
-          if (error)
-          {
-              Serial.print(F("deserializeJson() failed: "));
-              Serial.println(error.c_str());
-          }
-  
-          String text1;
-          text1 = jsonDoc["weather"][0]["icon"].as<String>();
-          w_icon = _iconNumber(text1);        
-          w_temp = jsonDoc["main"]["temp"].as<String>();
-          w_humi = jsonDoc["main"]["humidity"].as<String>();
-  
-          float f_temp = round(atof(w_temp.c_str()) * 10) / 10.0;         // round to 1 digit
-          char w_temp_c[20];
-          sprintf(w_temp_c,"%0.1f",f_temp);
-          w_temp = String(w_temp_c);                                      // convert to String
-
-          Serial.print("icon: ");
-          Serial.println(w_icon);
-          Serial.print("temp: "); 
-          Serial.print(w_temp);
-          Serial.println(" C");
-          Serial.print("humidity: "); 
-          Serial.print(w_humi);
-          Serial.println(" %"); 
-       }
-
-      client.stop();
+    DeserializationError error = deserializeJson(jsonDoc, JSONDaten);    //Deserialize string to AJSON-doc
+    if (error) {
+      Serial.print(F("deserializeJson() failed: "));
+      Serial.println(error.c_str());
     }
+
+    String text1;
+    text1 = jsonDoc["weather"][0]["icon"].as<String>();
+    w_icon = _iconNumber(text1);        
+    w_temp = jsonDoc["main"]["temp"].as<String>();
+    w_humi = jsonDoc["main"]["humidity"].as<String>();
+  
+    float f_temp = round(atof(w_temp.c_str()) * 10) / 10.0;         // round to 1 digit
+    char w_temp_c[20];
+    sprintf(w_temp_c,"%0.1f",f_temp);
+    w_temp = String(w_temp_c);                                      // convert to String
+
+    Serial.print("icon: ");
+    Serial.println(w_icon);
+    Serial.print("temp: "); 
+    Serial.print(w_temp);
+    Serial.println(" C");
+    Serial.print("humidity: "); 
+    Serial.print(w_humi);
+    Serial.println(" %"); 
+
 }
 
 
@@ -551,4 +513,33 @@ void my_BMP::_hexDump(const char line[], size_t length) {
         }
         printf("\n");
     }
+}
+
+String my_BMP::_serverRequest(const char* OpenweatherServer) 
+{
+  WiFiClient Client;
+  HTTPClient httpClient;
+
+  httpClient.begin(Client, OpenweatherServer);
+
+  // Anfrage senden
+  int answerCode = httpClient.GET();
+
+  String serverAnswer = "";
+
+  if (answerCode > 0) 
+  {
+    // Wetter als String holen, wird später in ein JSON-Objekt umgewandelt
+    serverAnswer = httpClient.getString();
+  }
+
+  else 
+  {
+    Serial.print("ERROR: ");
+    Serial.println(serverAnswer);
+  }
+
+  httpClient.end();
+
+  return serverAnswer;
 }
