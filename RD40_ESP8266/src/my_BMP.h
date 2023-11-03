@@ -52,6 +52,7 @@ class my_BMP {
     void _print_icon_30x20(int p_mode, int i_num, int xpos, int ypos);
 
     int _iconNumber(String iconText);
+    void _hexDump(const char line[], size_t length);
 
     int _myYear;
     int _myMon;

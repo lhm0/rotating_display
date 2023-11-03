@@ -458,7 +458,13 @@ void my_BMP::getWeather(String apiKey, String location) {
 
     if (client.connected()) { 
       line = client.readStringUntil('\n'); 
-      Serial.println("parsingValues"); 
+
+      char line_c[line.length()];
+      std::strcpy(line_c, line.c_str());
+      size_t length = line.length();
+      _hexDump(line_c, length);
+
+      Serial.println("parsing values"); 
 
       if(line != "")  //Only do an update, if we got valid data
       {
@@ -518,4 +524,25 @@ int my_BMP::_iconNumber(String iconText) {
   if (strcmp("50d",iconText.c_str())==0) iconNr=8;
   if (strcmp("50n",iconText.c_str())==0) iconNr=8;
   return iconNr;
+}
+
+void my_BMP::_hexDump(const char line[], size_t length) {
+    for (size_t i = 0; i < length; i += 16) {
+        Serial.printf("%08lX: ", (unsigned long)i);
+        size_t j;
+        for (j = i; j < i + 16 && j < length; ++j) {
+            Serial.printf("%02X ", (unsigned char)line[j]);
+        }
+        for (; j < i + 16; ++j) {
+            Serial.printf("   ");
+        }
+        for (j = i; j < i + 16 && j < length; ++j) {
+            if (isprint((unsigned char)line[j])) {
+                putchar(line[j]);
+            } else {
+                putchar('.');
+            }
+        }
+        printf("\n");
+    }
 }
