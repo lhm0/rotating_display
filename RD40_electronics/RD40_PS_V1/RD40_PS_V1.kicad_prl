@@ -70,8 +70,14 @@
     "visible_layers": "fffffff_ffffffff",
     "zone_display_mode": 0
   },
+  "git": {
+    "repo_password": "",
+    "repo_type": "",
+    "repo_username": "",
+    "ssh_key": ""
+  },
   "meta": {
-    "filename": "Sek_Coil V2.kicad_prl",
+    "filename": "RD40_PS_V1.kicad_prl",
     "version": 3
   },
   "project": {
