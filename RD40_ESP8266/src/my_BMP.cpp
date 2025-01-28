@@ -45,7 +45,7 @@ void my_BMP::generateBMP(int mode, tm* tm1, const char* ssid, const char* ipAddr
    if (mode==2) _generateDigital();                            // generates bitmap with digital clock
    if (mode==3) _generateLogoClock();                          // generates bitmap with logo clock
    if (mode==4) _generateWeather();                            // generates bitmap with weather information
-   if (mode==5) _generateImage();                            // generates bitmap with image
+   if (mode==5) _generateImage();                              // generates bitmap with image
 }
 
 // =========================================================================================================================================

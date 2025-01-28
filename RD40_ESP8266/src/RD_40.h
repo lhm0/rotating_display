@@ -37,6 +37,7 @@ class RD_40 {
   public:
 
     int brightness;                                               // brightness level in %
+    bool animation_mode=false;                                    // if true, the animation mode of the Arduino nano will be activated
     boolean sendAll=true;                                         // if true, all lines need to be sent
     boolean setComplete=true;                                     // used to control upload
   

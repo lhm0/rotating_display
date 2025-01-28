@@ -163,30 +163,30 @@ button:focus {
 
 .button-1 {
     position: absolute;
-    top: 395px;
+    top: 440px;
     left: calc(50% - 185px);
 }
 
 .button-2 {
     position: absolute;
-    top: 395px;
+    top: 440px;
     left: calc(50% + 5px);
 }
 
 .button-3 {
     position: absolute;
-    top: 440px;
+    top: 485px;
     left: calc(50% - 185px);
 }
 
 .button-4 {
     position: absolute;
-    top: 440px;
+    top: 485px;
     left: calc(50% + 5px);
 }
 
 .button-5 {
     position: absolute;
-    top: 485px;
+    top: 530px;
     left: calc(50% - 185px);
 }

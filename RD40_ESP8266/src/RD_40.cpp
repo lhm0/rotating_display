@@ -41,6 +41,8 @@ void RD_40::upload(int _brightness) {                                           
         }
         else {
           _i2cSendBuffer[1]=(unsigned char)(brightness);
+          if (animation_mode==true) _i2cSendBuffer[2] = 0xFF;
+          else _i2cSendBuffer[2] = 0;
         }
 
         int conf=254; 

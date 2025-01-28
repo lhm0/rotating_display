@@ -141,6 +141,7 @@ void webInterface::_startServer() {
       if (button=="option4") clockMode=3;
       if (button=="option5") clockMode=4;
       if (button=="option6") clockMode=5;
+      if (button=="option7") clockMode=6;
       }
     else {
       clockMode=0;

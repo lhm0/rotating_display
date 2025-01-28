@@ -126,8 +126,14 @@ void loop() {
 
       int mybrightness = wi40.brightness;                               // wi40 holds the brightness setting of user interface
       RD40.brightness = mybrightness;                                   // update brightness. 
-      RD40.upload(mybrightness);                                        // 
 
+      if (myMode == 6) RD40.animation_mode = true;
+      if ((myMode != 6)&&(RD40.animation_mode = true)) {
+        RD40.animation_mode = false;
+        RD40.sendAll = true;
+      }
+
+      RD40.upload(mybrightness);                                        // 
 
     }
 }
