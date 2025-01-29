@@ -17,10 +17,23 @@ h1 {
     white-space: nowrap;
 }
 
+h2 {
+    font-size: 30px;
+    font-family: Arial;
+    position: absolute;
+    top: 30;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline;
+    text-align: center;
+    white-space: nowrap;
+}
+
+
 .timeZone-list {
     position: absolute;
     left: calc(50% - 150px);
-    top: 70px;
+    top: 100px;
     text-align: left;
     font-size: 16px;
     font-family:Arial;
@@ -81,13 +94,13 @@ button:focus {
 
 .button-1 {
     position: absolute;
-    top: 320px;
+    top: 350px;
     left: calc(50% - 88px);
 }
 
 .button-2 {
     position: absolute;
-    top: 365px;
+    top: 395px;
     left: calc(50% - 88px);
 }
 
@@ -114,7 +127,7 @@ button:focus {
     font-weight:bold;
     position: absolute;
     left: calc(50% - 150px);
-    top: 260;
+    top: 290;
     width: 300px;
     height: 50px;
 }

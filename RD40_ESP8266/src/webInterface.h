@@ -28,6 +28,8 @@
 #include "my_ESP.h"
 #include "FlashFS.h"
 
+extern my_ESP myESP;
+
 class webInterface {
   private:
     AsyncWebServer _server{80};                 // server object

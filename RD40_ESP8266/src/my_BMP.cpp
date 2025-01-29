@@ -28,24 +28,41 @@ my_BMP::my_BMP() {
 //                                                      generateBMP method
 // =========================================================================================================================================
 
-void my_BMP::generateBMP(int mode, tm* tm1, const char* ssid, const char* ipAddress) {      // generates bitmap according to mode
-  _myYear = tm1->tm_year;                                       // save tm to private attributes
-  _myMon = tm1->tm_mon;
-  _myMday = tm1->tm_mday;
-  _myHour = tm1->tm_hour;
-  _myMin = tm1->tm_min;
-  _mySec = tm1->tm_sec;
-  _myWday = tm1->tm_wday;
+void my_BMP::generateBMP(int mode, tm* tm1, const char* ssid, const char* ipAddress) {      
 
-   strcpy(_ssid, ssid);                                        // save ssid to private attribute
-   strcpy(_ipAddress, ipAddress);                              // save ipAddress to private attribute
+ // Save time and network information to private attributes
+    _saveTimeInfo(tm1);
+    _saveNetworkInfo(ssid, ipAddress);
 
-   if (mode==0) _generateIP();                                 // generates bitmap, which shows the IP address
-   if (mode==1) _generateAnalog();                             // generates bitmap with analog clock
-   if (mode==2) _generateDigital();                            // generates bitmap with digital clock
-   if (mode==3) _generateLogoClock();                          // generates bitmap with logo clock
-   if (mode==4) _generateWeather();                            // generates bitmap with weather information
-   if (mode==5) _generateImage();                              // generates bitmap with image
+ // Generate bitmap based on the specified mode
+  switch (mode) {
+    case 0: _generateIP(); break;
+    case 1: _generateAnalog(); break;
+    case 2: _generateDigital(); break;
+    case 3: _generateLogoClock(); break;
+    case 4: _generateWeather(); break;
+    case 5: _generateImage(); break;
+    default: break; // Handle unknown mode
+  }
+}
+
+// =========================================================================================================
+//                                                      Helper Methods
+// =========================================================================================================
+
+void my_BMP::_saveTimeInfo(tm* tm1) {
+    _myYear = tm1->tm_year;
+    _myMon = tm1->tm_mon;
+    _myMday = tm1->tm_mday;
+    _myHour = tm1->tm_hour;
+    _myMin = tm1->tm_min;
+    _mySec = tm1->tm_sec;
+    _myWday = tm1->tm_wday;
+}
+
+void my_BMP::_saveNetworkInfo(const char* ssid, const char* ipAddress) {
+    strcpy(_ssid, ssid);
+    strcpy(_ipAddress, ipAddress);
 }
 
 // =========================================================================================================================================
@@ -54,7 +71,6 @@ void my_BMP::generateBMP(int mode, tm* tm1, const char* ssid, const char* ipAddr
 
 void my_BMP::_generateIP() {
     char text1[100];
-    char ip_addr[] = "0.0.0.0";
     char parsed_ip[4][4];
     char ip_part1[20];
     char ip_part2[20];
@@ -440,7 +456,7 @@ void my_BMP::getWeather(String apiKey, String location) {
 
     String JSONDaten = _serverRequest(OpenweatherServer.c_str());
 
-    DynamicJsonDocument jsonDoc(2000);
+    JsonDocument jsonDoc;
     DeserializationError error = deserializeJson(jsonDoc, JSONDaten);    //Deserialize string to AJSON-doc
     if (error) {
       Serial.print(F("deserializeJson() failed: "));
@@ -492,27 +508,6 @@ int my_BMP::_iconNumber(String iconText) {
   if (strcmp("50d",iconText.c_str())==0) iconNr=8;
   if (strcmp("50n",iconText.c_str())==0) iconNr=8;
   return iconNr;
-}
-
-void my_BMP::_hexDump(const char line[], size_t length) {
-    for (size_t i = 0; i < length; i += 16) {
-        Serial.printf("%08lX: ", (unsigned long)i);
-        size_t j;
-        for (j = i; j < i + 16 && j < length; ++j) {
-            Serial.printf("%02X ", (unsigned char)line[j]);
-        }
-        for (; j < i + 16; ++j) {
-            Serial.printf("   ");
-        }
-        for (j = i; j < i + 16 && j < length; ++j) {
-            if (isprint((unsigned char)line[j])) {
-                putchar(line[j]);
-            } else {
-                putchar('.');
-            }
-        }
-        printf("\n");
-    }
 }
 
 String my_BMP::_serverRequest(const char* OpenweatherServer) 

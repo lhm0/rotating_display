@@ -6,9 +6,7 @@
 // you may not use this software for commercial purposes 
 // =========================================================================================================================================
 
-
 #include <Arduino.h>
-
 #include "my_ESP.h"
 #include "RD_40.h"
 #include "RD_40trafo.h"
@@ -16,7 +14,6 @@
 #include "my_BMPtemplates.h"
 #include "FlashFS.h"
 #include "webInterface.h"
-
 
 // =========================================================================================================================================
 // 
@@ -57,83 +54,75 @@
 //                    char location[50]="";                           location for openweathermap.org
 //                    char country[20]="";                            country for openweathermap.org
 //
-//
 // =========================================================================================================================================
-
 
 my_ESP myESP;                                                // create instance of my_ESP
 webInterface wi40;                                           // create instance of webInterface
 RD_40 RD40;                                                  // create instance of RD_40
 my_BMP myBMP;                                                // create instance of my_BMP
 
-long lastWeather;                                            // remember time of last weather updte
-int lastUpdate=0;                                            // remember the second of last display update
-int prevClockMode=4;                                         // remember previous clockMode
+long lastWeatherUpdateTime = 0;                              // remember time of last weather update
+int lastDisplayUpdateSecond = 0;                             // remember the second of last display update
+int previousClockMode = 4;                                   // remember previous clockMode
 
 // =========================================================================================================================
 
-void setup(){
-
+void setup() {
   // Serial port for debugging purposes
   Serial.begin(115200);
 
-
   myESP.begin();                            // initiates Wifi, I2C, time, and SPIFFS file management
-  String myssid = myESP.ssid;               // withdraw SSID
-  String myIpAddress = myESP.ipAddress;
-  wi40.begin(myssid);                       // start web server
+  String ssid = myESP.ssid;                 // withdraw SSID
+  wi40.begin(ssid);                         // start web server
 
   myESP.getMyTime();
-  Serial.printf("Zeit: %d:%d:%d\n", myESP.Hour, myESP.Min, myESP.Sec);
+  Serial.printf("Current Time: %d:%d:%d\n", myESP.Hour, myESP.Min, myESP.Sec);
 }
 
 void loop() {
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// 
-//
+  // Update weather data every 60 seconds or if an update is requested
+  if (((millis() - lastWeatherUpdateTime) > 60000 && wi40.clockMode == 4) || wi40.updateWeather) {
+    lastWeatherUpdateTime = millis();
+    Serial.println("Requesting weather data...");
+    myBMP.getWeather(wi40.apiKey, wi40.location);
+    wi40.updateWI(myBMP.w_icon, myBMP.w_temp, myBMP.w_humi);  // Send data via WebSocket to webpage
+    wi40.updateWeather = false;
+  }
 
+  myESP.getMyTime();
 
-    if ( (((millis()-lastWeather)>60000)&&(wi40.clockMode==4)) || wi40.updateWeather) {     // update weather every 60 seconds OR if update requested with update_weather
-      lastWeather=millis();
-      Serial.println("request weather data.....");
-      myBMP.getWeather(wi40.apiKey, wi40.location);
-      wi40.updateWI(myBMP.w_icon, myBMP.w_temp, myBMP.w_humi);                               //send data via WebSocket to webpage
+  // Update display every second if the display is ready
+  if ((lastDisplayUpdateSecond != myESP.Sec) && RD40.setComplete) {
+    lastDisplayUpdateSecond = myESP.Sec;
+    Serial.printf("Current Time: %d:%d:%d\n", myESP.Hour, myESP.Min, myESP.Sec);
 
-      wi40.updateWeather=false;
+    // Check if clock mode has changed
+    if (wi40.clockMode != previousClockMode) {
+      previousClockMode = wi40.clockMode;
+      RD40.sendAll = true;
     }
 
-    myESP.getMyTime();
+    int currentClockMode = wi40.clockMode;                   // wi40 holds clockMode setting of user interface
+    tm* currentTime = &myESP.tm1;                            // myESP holds time
+    String ssid = myESP.ssid;                                // withdraw SSID
+    String ipAddress = myESP.ipAddress;
 
-    if ((lastUpdate!=myESP.Sec)&&(RD40.setComplete)) {  
+    myBMP.generateBMP(currentClockMode, currentTime, ssid.c_str(), ipAddress.c_str());  // generate bitmap
 
-      lastUpdate=myESP.Sec;
-      Serial.printf("time: %d:%d:%d\n",myESP.Hour,myESP.Min,myESP.Sec);
-      
-      if (wi40.clockMode!=prevClockMode) {
-        prevClockMode=wi40.clockMode;
-        RD40.sendAll=true;
-      }
+    unsigned char (*bitmap)[14] = myBMP.bitmap;              // pointer at bitmap array
+    RD40.displayBMP(bitmap);                                 // update display data according to bitmap
 
-      int myMode = wi40.clockMode;                                      // wi40 holds clockMode setting of user interface
-      tm* mytm = &myESP.tm1;                                            // myESP holds time
-      String myssid = myESP.ssid;                                       // withdraw SSID
-      String myIpAddress = myESP.ipAddress;     
+    int currentBrightness = wi40.brightness;                 // wi40 holds the brightness setting of user interface
+    RD40.brightness = currentBrightness;                     // update brightness
 
-      myBMP.generateBMP(myMode, mytm, myssid.c_str(), myIpAddress.c_str());  // generate bitmap
-
-      unsigned char (*mybitmap)[14] = myBMP.bitmap;                     // pointer at bitmap array
-      RD40.displayBMP(mybitmap);                                        // update display data according to bitmap
-
-      int mybrightness = wi40.brightness;                               // wi40 holds the brightness setting of user interface
-      RD40.brightness = mybrightness;                                   // update brightness. 
-
-      if (myMode == 6) RD40.animation_mode = true;
-      if ((myMode != 6)&&(RD40.animation_mode = true)) {
-        RD40.animation_mode = false;
-        RD40.sendAll = true;
-      }
-
-      RD40.upload(mybrightness);                                        // 
-
+    // Handle animation mode
+    if (currentClockMode == 6) {
+      RD40.animation_mode = true;
+    } else if (RD40.animation_mode) {
+      RD40.animation_mode = false;
+      RD40.sendAll = true;
     }
+
+    RD40.upload(currentBrightness);                          // Upload display data
+  }
 }

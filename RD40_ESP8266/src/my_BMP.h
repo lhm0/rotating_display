@@ -29,6 +29,10 @@ class my_BMP {
     void _generateLogoClock();                          // generates bitmap with logo clock
     void _generateWeather();                            // generates bitmap with weather information
     void _generateImage();                              // generates bitmap with image
+
+     // Helper methods for internal use
+    void _saveTimeInfo(tm* tm1);                        // Saves time information to private attributes
+    void _saveNetworkInfo(const char* ssid, const char* ipAddress); // Saves network information
     
     bool _loadLogo();
     bool _loadWatchFace();
@@ -52,7 +56,6 @@ class my_BMP {
     void _print_icon_30x20(int p_mode, int i_num, int xpos, int ypos);
 
     int _iconNumber(String iconText);
-    void _hexDump(const char line[], size_t length);
     String _serverRequest(const char* OpenweatherServer); 
 
     int _myYear;

@@ -17,148 +17,176 @@
 // =========================================================================================================================================
 
 RD_40::RD_40() {
-//  brightness = 50;
+    // Constructor: Initialize default values
+    brightness = 50;  // Default brightness level
 }
-
 
 // =========================================================================================================================================
 //                                                      upload() method
 // =========================================================================================================================================
 
-void RD_40::upload(int _brightness) {                                                      // formerly send_lines()    
-    setComplete=false;
-    brightness=_brightness;
+void RD_40::upload(int brightness) {
+    // Upload display data to the display controller and set brightness
+    setComplete = false;
+    this->brightness = brightness;
 
-    char _i2cSendBuffer[16];
-    int i;
-    for (i=0; i<241; i++) {
-      if (_line_change[i]!=0) {
-        _i2cSendBuffer[0]=(unsigned char)(i);
-        if (i<240) 
-        {
-          int j;
-          for (j=0; j<5; j++) _i2cSendBuffer[j+1]=_line[j][i];   
+    char i2cSendBuffer[16];  // Buffer for I2C communication
+
+    // Send each line of display data
+    for (int i = 0; i <= 240; i++) {
+        int lineIndex = (i == 0) ? 240 : i - 1;  // Line 240 (parameters) is sent first
+
+        if (_line_change[lineIndex] != 0) {
+            i2cSendBuffer[0] = (unsigned char)(lineIndex);
+
+            if (lineIndex < 240) {
+                // Send display data for lines 0-239
+                for (int j = 0; j < 5; j++) {
+                    i2cSendBuffer[j + 1] = _line[j][lineIndex];
+                }
+            } else {
+                // Send parameters for line 240 (brightness and animation mode)
+                i2cSendBuffer[1] = (unsigned char)(brightness);
+                i2cSendBuffer[2] = (animation_mode) ? 0xFF : 0x00;
+            }
+
+            // Send data via I2C and wait for confirmation
+            int confirmation = 254;
+            while (confirmation != lineIndex) {
+                Wire.beginTransmission(4);
+                Wire.write(i2cSendBuffer, 6);
+                Wire.endTransmission();
+
+                Wire.requestFrom(4, 1);  // Request confirmation from peripheral device #4
+
+                while (Wire.available()) {
+                    confirmation = Wire.read();  // Read confirmation byte
+                }
+            }
+
+            _line_change[lineIndex] = 0;  // Mark line as sent
         }
-        else {
-          _i2cSendBuffer[1]=(unsigned char)(brightness);
-          if (animation_mode==true) _i2cSendBuffer[2] = 0xFF;
-          else _i2cSendBuffer[2] = 0;
-        }
-
-        int conf=254; 
-        while (conf!=i) {        
-          Wire.beginTransmission(4);
-          Wire.write(_i2cSendBuffer,6);
-          Wire.endTransmission();
-
-          Wire.requestFrom(4,1);    // request 2 bytes from peripheral device #4
-
-          while (Wire.available()) {
-            char a;
-            a = Wire.read(); // receive a byte
-            conf = (int)a;
-          }
-        }
-      _line_change[i]=0;
-      }
     }
-    setComplete=true;
+
+    setComplete = true;  // Mark upload as complete
 }
 
 // =========================================================================================================================================
-//                                                      displayBMP(unsigned char bmp[][14]) method
+//                                                      displayBMP() method
 // =========================================================================================================================================
 
-void RD_40::displayBMP(unsigned char bmp[][14]) {              // formerly trafo()
-  int r,a;
-  for (r=0; r<40; r++) {
-    for (a=0; a<240; a++) {
-      unsigned char x, y;
-      x = pgm_read_byte(&trafo_x[r][a]);
-      y = pgm_read_byte(&trafo_y[r][a]);
-      if (_testBmpBit(bmp,x,y)) _setLineBit(r,a);
-      else _clearLineBit(r,a);
+void RD_40::displayBMP(unsigned char bmp[][14]) {
+    // Convert bitmap data to display line data
+    for (int row = 0; row < 40; row++) {
+        for (int angle = 0; angle < 240; angle++) {
+            unsigned char x = pgm_read_byte(&trafo_x[row][angle]);
+            unsigned char y = pgm_read_byte(&trafo_y[row][angle]);
+
+            if (_testBmpBit(bmp, x, y)) {
+                _setLineBit(row, angle);  // Set LED bit if bitmap bit is set
+            } else {
+                _clearLineBit(row, angle);  // Clear LED bit if bitmap bit is not set
+            }
+        }
     }
-  }
-  _check_changes();
+
+    _check_changes();  // Update changes in display data
 }
 
 // =========================================================================================================================================
-//                                                      methods for testing and manipulating bitmap bits
+//                                                      Bitmap Bit Manipulation Methods
 // =========================================================================================================================================
 
 bool RD_40::_testBmpBit(unsigned char bmp[][14], int x, int y) {
-  int y_byte, y_bit;
-  unsigned char y_test;
-  y_byte=y/8;
-  y_bit=y%8;
-  y_test=1;
-  y_test<<=y_bit;
-  return (bmp[x][y_byte] & y_test);
+    // Test if a specific bit in the bitmap is set
+    int byteIndex = y / 8;
+    int bitIndex = y % 8;
+    unsigned char bitMask = 1 << bitIndex;
+    return (bmp[x][byteIndex] & bitMask);
 }
 
 void RD_40::_setBmpBit(unsigned char bmp[][14], int x, int y) {
-  int y_byte, y_bit;
-  unsigned char y_test;
-  y_byte=y/8;
-  y_bit=y%8;
-  y_test=1;
-  y_test<<=y_bit;
-  bmp[x][y_byte]|=y_test;  
+    // Set a specific bit in the bitmap
+    int byteIndex = y / 8;
+    int bitIndex = y % 8;
+    unsigned char bitMask = 1 << bitIndex;
+    bmp[x][byteIndex] |= bitMask;
 }
 
 void RD_40::_clrBmpBit(unsigned char bmp[][14], int x, int y) {
-  int y_byte, y_bit;
-  unsigned char y_test;
-  y_byte=y/8;
-  y_bit=y%8;
-  y_test=1;
-  y_test<<=y_bit;;
-  y_test=~(y_test);
-  bmp[x][y_byte]&=y_test;    
+    // Clear a specific bit in the bitmap
+    int byteIndex = y / 8;
+    int bitIndex = y % 8;
+    unsigned char bitMask = ~(1 << bitIndex);
+    bmp[x][byteIndex] &= bitMask;
 }
 
 // =========================================================================================================================================
-//                                                      methods for manipulating line bits (=LEDs)
+//                                                      Line Bit Manipulation Methods
 // =========================================================================================================================================
 
-void RD_40::_setLineBit(int r, int a) {
+void RD_40::_setLineBit(int row, int angle) {
+    // Set a specific LED bit in the display line data
+    static const unsigned char lineByte[40] = {
+        0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03,
+        0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x01, 0x04, 0x01, 0x04,
+        0x01, 0x04, 0x01, 0x04, 0x01, 0x04, 0x01, 0x04, 0x01, 0x04,
+        0x01, 0x04, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02
+    };
+    static const unsigned char lineBit[40] = {
+        0x01, 0x01, 0x02, 0x02, 0x04, 0x04, 0x08, 0x08, 0x10, 0x10,
+        0x20, 0x20, 0x40, 0x40, 0x80, 0x80, 0x01, 0x01, 0x02, 0x02,
+        0x04, 0x04, 0x08, 0x08, 0x10, 0x10, 0x20, 0x20, 0x40, 0x40,
+        0x80, 0x80, 0x01, 0x10, 0x02, 0x20, 0x04, 0x40, 0x08, 0x80
+    };
 
-// LED#   00 01 02 03 04 05 06 07 | 08 09 10 11 12 13 14 15 | 16 17 18 19 20 21 22 23 | 24 25 26 27 28 29 30 31 | 32 33 34 35 36 37 38 39
-// byte#   0  3  0  3  0  3  0  3 |  0  3  0  3  0  3  0  3 |  1  4  1  4  1  4  1  4 |  1  4  1  4  1  4  1  4 |  2  2  2  2  2  2  2  2
-// bit#    0  0  1  1  2  2  3  3 |  4  4  5  5  6  6  7  7 |  0  0  1  1  2  2  3  3 |  4  4  5  5  6  6  7  7 |  0  4  1  5  2  6  3  7
-
-unsigned char lineByte[40]={0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x01, 0x04, 0x01, 0x04, 0x01, 0x04, 0x01, 0x04, 0x01, 0x04, 0x01, 0x04, 0x01, 0x04, 0x01, 0x04, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02};
-unsigned char lineBit[40] ={0x01, 0x01, 0x02, 0x02, 0x04, 0x04, 0x08, 0x08, 0x10, 0x10, 0x20, 0x20, 0x40, 0x40, 0x80, 0x80, 0x01, 0x01, 0x02, 0x02, 0x04, 0x04, 0x08, 0x08, 0x10, 0x10, 0x20, 0x20, 0x40, 0x40, 0x80, 0x80, 0x01, 0x10, 0x02, 0x20, 0x04, 0x40, 0x08, 0x80};
-
-  _line[lineByte[r]][a]|=lineBit[r];
+    _line[lineByte[row]][angle] |= lineBit[row];
 }
 
-void RD_40::_clearLineBit(int r, int a) {
+void RD_40::_clearLineBit(int row, int angle) {
+    // Clear a specific LED bit in the display line data
+    static const unsigned char lineByte[40] = {
+        0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03,
+        0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x01, 0x04, 0x01, 0x04,
+        0x01, 0x04, 0x01, 0x04, 0x01, 0x04, 0x01, 0x04, 0x01, 0x04,
+        0x01, 0x04, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02
+    };
+    static const unsigned char lineBit[40] = {
+        0x01, 0x01, 0x02, 0x02, 0x04, 0x04, 0x08, 0x08, 0x10, 0x10,
+        0x20, 0x20, 0x40, 0x40, 0x80, 0x80, 0x01, 0x01, 0x02, 0x02,
+        0x04, 0x04, 0x08, 0x08, 0x10, 0x10, 0x20, 0x20, 0x40, 0x40,
+        0x80, 0x80, 0x01, 0x10, 0x02, 0x20, 0x04, 0x40, 0x08, 0x80
+    };
 
-// LED#   00 01 02 03 04 05 06 07 | 08 09 10 11 12 13 14 15 | 16 17 18 19 20 21 22 23 | 24 25 26 27 28 29 30 31 | 32 33 34 35 36 37 38 39
-// byte#   0  3  0  3  0  3  0  3 |  0  3  0  3  0  3  0  3 |  1  4  1  4  1  4  1  4 |  1  4  1  4  1  4  1  4 |  2  2  2  2  2  2  2  2
-// bit#    0  0  1  1  2  2  3  3 |  4  4  5  5  6  6  7  7 |  0  0  1  1  2  2  3  3 |  4  4  5  5  6  6  7  7 |  0  4  1  5  2  6  3  7
-
-unsigned char lineByte[40]={0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x01, 0x04, 0x01, 0x04, 0x01, 0x04, 0x01, 0x04, 0x01, 0x04, 0x01, 0x04, 0x01, 0x04, 0x01, 0x04, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02};
-unsigned char lineBit[40] ={0x01, 0x01, 0x02, 0x02, 0x04, 0x04, 0x08, 0x08, 0x10, 0x10, 0x20, 0x20, 0x40, 0x40, 0x80, 0x80, 0x01, 0x01, 0x02, 0x02, 0x04, 0x04, 0x08, 0x08, 0x10, 0x10, 0x20, 0x20, 0x40, 0x40, 0x80, 0x80, 0x01, 0x10, 0x02, 0x20, 0x04, 0x40, 0x08, 0x80};
-
-  _line[lineByte[r]][a]&=~lineBit[r];
+    _line[lineByte[row]][angle] &= ~lineBit[row];
 }
+
+// =========================================================================================================================================
+//                                                      _check_changes() method
+// =========================================================================================================================================
 
 void RD_40::_check_changes() {
-  int i,k,count=0;
-  for (k=0; k<240; k++) {
-    if ((_line[0][k]!=_line_prev[0][k])||(_line[1][k]!=_line_prev[1][k])||(_line[2][k]!=_line_prev[2][k])||(_line[3][k]!=_line_prev[3][k])||(_line[4][k]!=_line_prev[4][k])||sendAll) 
-    {
-      for (i=0; i<5; i++) _line_prev[i][k]=_line[i][k];
-      _line_change[k]=1;
-      count++;
+    // Check for changes in display data and mark lines for update
+    int changeCount = 0;
+
+    for (int angle = 0; angle < 240; angle++) {
+        bool hasChanged = false;
+
+        for (int i = 0; i < 5; i++) {
+            if (_line[i][angle] != _line_prev[i][angle] || sendAll) {
+                hasChanged = true;
+                _line_prev[i][angle] = _line[i][angle];  // Update previous line data
+            }
+        }
+
+        if (hasChanged) {
+            _line_change[angle] = 1;  // Mark line as changed
+            changeCount++;
+        } else {
+            _line_change[angle] = 0;  // Mark line as unchanged
+        }
     }
-    else {
-      _line_change[k]=0;
-    }
-  }
-  _line_change[240]=1;
-  sendAll=false;
+
+    _line_change[240] = 1;  // Always mark parameter line as changed
+    sendAll = false;        // Reset sendAll flag
 }

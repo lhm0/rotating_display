@@ -68,7 +68,7 @@ bool FlashFS::read_f(uint8_t (*bitmap)[14], int rows) {
   
   // Read the data into the bitmap array
   for (int i = 0; i < rows; ++i) {
-    int bytesRead = file.read(bitmap[i], sizeof(bitmap[i]));
+    unsigned int bytesRead = file.read(bitmap[i], sizeof(bitmap[i]));
     
     // If there are less bytes than expected, fill with 0
     if (bytesRead < sizeof(bitmap[i])) {
@@ -120,7 +120,7 @@ bool FlashFS::close_f() {
 }
 
 String FlashFS::listFilesInJson() {
-  DynamicJsonDocument doc(1024);
+  JsonDocument doc;
   JsonArray array = doc.to<JsonArray>();
 
   if (!LittleFS.begin()) {

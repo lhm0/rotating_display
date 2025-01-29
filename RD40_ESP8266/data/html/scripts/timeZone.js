@@ -57,6 +57,63 @@ function createListItem(text, index) {
   return listItem;
 }
 
+function updateTime() {
+  const timeDisplay = document.getElementById("time-display");
+
+  serverSecond = serverSecond +1;
+  if (serverSecond >= 60) {
+    serverSecond = 0;
+    serverMinute = serverMinute+1;
+    if (serverMinute >= 60) {
+      serverMinute = 0;
+      serverHour = serverHour+1;
+      if (serverHour >= 24) {
+        serverHour = 0;
+      }
+    }
+  }
+
+  // Formatierung der Stunden, Minuten und Sekunden (fügt führende Nullen hinzu)
+  let formattedHour = String(serverHour).padStart(2, '0');
+  let formattedMinute = String(serverMinute).padStart(2, '0');
+  let formattedSecond = String(serverSecond).padStart(2, '0');
+
+  // Setze die formatierte Zeit in das HTML-Element
+  timeDisplay.textContent = `${formattedHour}:${formattedMinute}:${formattedSecond}`;
+}
+
+let serverHour;
+let serverMinute;
+let serverSecond;
+
+async function fetchServerTime() {
+  try {
+      // Führe eine HTTP GET-Anfrage an den Arduino-Server durch
+      const response = await fetch('/server-time'); // Ersetze <arduino-ip> mit der IP-Adresse des Arduino
+      
+      // Überprüfe, ob die Antwort erfolgreich war
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      
+      // Parsen der JSON-Antwort
+      const data = await response.json();
+      
+      // Speichern der Zeit in Variablen
+      serverHour = data.hour;
+      serverMinute = data.minute;
+      serverSecond = data.second;
+
+      // Ausgabe in der Konsole (optional)
+      console.log('Stunden: ' + serverHour);
+      console.log('Minuten: ' + serverMinute);
+      console.log('Sekunden: ' + serverSecond);
+      
+  } catch (error) {
+      // Fehlerbehandlung
+      console.error('Es gab ein Problem mit der Anfrage:', error);
+  }
+}
 
 // Event listener for when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -83,9 +140,29 @@ document.getElementById('selectTimeZone').addEventListener('click', () => {
   }
 
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", "/timeZoneUpdate?value="+selectedEntryNumber);
+
+  xhr.open("GET", "/timeZoneUpdate?value=" + selectedEntryNumber);
+
+  // Define what happens when the request completes
+  xhr.onload = function () {
+    if (xhr.status >= 200 && xhr.status < 300) {
+      // Request was successful, call fetchServerTime
+      fetchServerTime();
+    } else {
+      // Handle errors or unsuccessful requests
+      console.error('Failed to update time zone. Status:', xhr.status);
+    }
+  };
+
+  // Define what happens in case of an error
+  xhr.onerror = function () {
+    console.error('Request failed');
+  };
+
+  // Send the request
   xhr.send();
 
+  // Reset the selected entry index
   selectedEntryIndex = -1;
 
 });
@@ -94,4 +171,11 @@ document.getElementById('selectTimeZone').addEventListener('click', () => {
 document.getElementById('done').addEventListener('click', () => {
 
   window.location.href = "/configDone";
+});
+
+window.onload = fetchServerTime;
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Ruft updateTime() jede Sekunde auf
+  setInterval(updateTime, 1000);
 });
