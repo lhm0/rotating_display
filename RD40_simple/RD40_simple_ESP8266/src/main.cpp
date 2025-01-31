@@ -161,10 +161,10 @@ void print12x18(int alignment, const char text[], int xPos, int yPos) {
       if ((xPos + x + 12 * charIndex) < 110) {
         charData << yPos%8;
         int offset = yPos/8;
-        bitmap[xPos+x+12*charIndex][offset] |= (charData >>  0) & 0xFF;
-        bitmap[xPos+x+12*charIndex][offset + 1] |= (charData >>  8) & 0xFF;
-        bitmap[xPos+x+12*charIndex][offset + 2] |= (charData >> 16) & 0xFF;
-        bitmap[xPos+x+12*charIndex][offset + 3] |= (charData >> 24) & 0xFF;
+        if (offset<14) bitmap[xPos+x+12*charIndex][offset] |= (charData >>  0) & 0xFF;
+        if (offset<13) bitmap[xPos+x+12*charIndex][offset + 1] |= (charData >>  8) & 0xFF;
+        if (offset<12) bitmap[xPos+x+12*charIndex][offset + 2] |= (charData >> 16) & 0xFF;
+        if (offset<11) bitmap[xPos+x+12*charIndex][offset + 3] |= (charData >> 24) & 0xFF;
       }
     }
   }
