@@ -6,5 +6,6 @@
 extern const char trafo_x[40][240] PROGMEM;
 extern const char trafo_y[40][240] PROGMEM;
 extern const char chr_12x18[96][36] PROGMEM;
+extern const char chr_10x15[96][20] PROGMEM;
 
 #endif  // TABLES_H

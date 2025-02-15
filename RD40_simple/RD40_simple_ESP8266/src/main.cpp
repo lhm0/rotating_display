@@ -27,6 +27,7 @@ void updateLocalTime();
 void generateTimeBitmap();
 void clearBitmap();
 void print12x18(int alignment, const char text[], int xPos, int yPos);
+void print10x15(int alignment, const char text[], int xPos, int yPos);
 void transformBitmapToPolar();
 bool isBitmapBitSet(int x, int y);
 void setLedBit(int row, int angle);
@@ -117,11 +118,8 @@ void generateTimeBitmap() {
   sprintf(timeText, "%02d", localTime.tm_sec);
   print12x18(1, timeText, 85, 72);          // Print seconds
 
-  sprintf(timeText, "%02d.%02d.", localTime.tm_mday, localTime.tm_mon + 1);
-  print12x18(1, timeText, 55, 24);          // Print date (day.month)
-
-  sprintf(timeText, "%04d", localTime.tm_year + 1900);
-  print12x18(1, timeText, 55, 4);           // Print year
+  sprintf(timeText, "%02d.%02d.%04d", localTime.tm_mday, localTime.tm_mon + 1, localTime.tm_year + 1900);
+  print10x15(1, timeText, 55, 24);          // Print date (day.month)
 }
 
 // Clear Bitmap
@@ -165,6 +163,45 @@ void print12x18(int alignment, const char text[], int xPos, int yPos) {
         if (offset<13) bitmap[xPos+x+12*charIndex][offset + 1] |= (charData >>  8) & 0xFF;
         if (offset<12) bitmap[xPos+x+12*charIndex][offset + 2] |= (charData >> 16) & 0xFF;
         if (offset<11) bitmap[xPos+x+12*charIndex][offset + 3] |= (charData >> 24) & 0xFF;
+      }
+    }
+  }
+}
+
+// Print 10x15 Font Characters to Bitmap
+void print10x15(int alignment, const char text[], int xPos, int yPos) { 
+ 
+  int textLength = strlen(text);
+  int xOffset = 0;
+
+  // Adjust xPos based on alignment
+  switch (alignment) {
+    case 1: // Center alignment
+      xOffset = -5 * textLength;
+      break;
+    case 2: // Right alignment
+      xOffset = -10 * textLength;
+      break;
+    default: // Left alignment (no adjustment)
+      break;
+  }
+
+  xPos += xOffset;
+
+  // Loop through each character in the text
+  for (int charIndex = 0; charIndex < textLength; charIndex++) {
+    for (int x = 0; x < 10; x++) {
+      uint32_t charData = (uint32_t)pgm_read_dword(&chr_10x15[(int)text[charIndex] - 0x20][2 * x]);
+      if ((xPos + x + 10 * charIndex) < 110) {
+        charData &= 0x7FFF;       // only use 15 bits
+        charData << yPos%8;
+        int offset = yPos/8;
+        if ((xPos + x + 10 * charIndex) < 110) {
+          if (offset<14) bitmap[xPos+x+10*charIndex][offset] |= (charData >>  0) & 0xFF;
+          if (offset<13) bitmap[xPos+x+10*charIndex][offset + 1] |= (charData >>  8) & 0xFF;
+          if (offset<12) bitmap[xPos+x+10*charIndex][offset + 2] |= (charData >> 16) & 0xFF;
+          if (offset<11) bitmap[xPos+x+10*charIndex][offset + 3] |= (charData >> 24) & 0xFF;
+        }
       }
     }
   }
